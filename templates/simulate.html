@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+
+    <title>Simulation</title>
+</head>
+<body>
+    <h1>Simulation in Progress...</h1>
+    <p>You were assigned to the "{{ group }}" group.</p>
+    <p>Impact Velocity: {{ result['impact_velocity'] }} m/s</p>
+    <p>Time of Fall: {{ result['time_of_fall'] }} seconds</p>
+    <p>Outcome: {{ result['outcome'] }}</p>
+    <a href="{{ url_for('results') }}">See Results</a>
+</body>
+<body>
+    <!-- Existing content -->
+    <div id="sketch-holder"></div>
+
+    <script>
+        let y = 0;
+        let velocity = 0;
+        let g = 9.81;
+        let time = 0;
+        let dt = 0.1;
+        let impact = false;
+        let height = 3000;  // Starting height in meters
+        let scaleFactor = 0.1;  // Scale for visualization
+
+        // Parameters from Python
+        let group = "{{ group }}";
+        let area = group === 'parachute' ? 15 : 0.7;
+        let Cd = 1.0;
+        let mass = 80;
+        let airDensity = 1.225;
+
+        function setup() {
+            createCanvas(400, 600);
+            y = 0;
+        }
+
+        function draw() {
+            background(135, 206, 235);  // Sky blue
+            if (!impact) {
+                let dragForce = 0.5 * Cd * airDensity * area * velocity * velocity;
+                let acceleration = g - (dragForce / mass);
+                velocity += acceleration * dt;
+                y += velocity * dt;
+                time += dt;
+
+                // Check for impact
+                if (y * scaleFactor >= height * scaleFactor) {
+                    impact = true;
+                    noLoop();
+                }
+            }
+
+            // Draw ground
+            fill(34, 139, 34);  // Forest green
+            rect(0, height * scaleFactor, width, height);
+
+            // Draw the person
+            fill(255, 0, 0);  // Red
+            ellipse(width / 2, y * scaleFactor, 20, 20);
+
+            // Display info
+            fill(0);
+            textSize(16);
+            text(`Time: ${time.toFixed(1)} s`, 10, 20);
+            text(`Velocity: ${velocity.toFixed(1)} m/s`, 10, 40);
+        }
+    </script>
+  <footer>
+    © 2024 Magnús Smári Smárason, allur réttur áskilinn. | <a href="https://www.smarason.is" target="_blank" rel="noopener">www.smarason.is</a>
+</footer>
+</body>
+</html>

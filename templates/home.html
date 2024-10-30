@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parachute Effectiveness Trial</title>
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 20px;
+        }
+        .citation {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+            font-style: italic;
+        }
+        .citation a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .citation a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            margin-top: auto;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+        .header-image {
+            max-width: 300px;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Parachute Effectiveness Trial</h1>
+    
+    <img src="/static/graphics/parachutes.jpeg" alt="Parachutes" class="header-image">
+    
+    <p>
+        Participate in a double-blind trial to test the effectiveness of parachutes in preventing injury during free fall.
+    </p>
+    
+    <div class="citation">
+        Inspired by: <a href="https://pubmed.ncbi.nlm.nih.gov/14684649/" target="_blank" rel="noopener">Smith GC, Pell JP. Parachute use to prevent death and major trauma related to gravitational challenge: systematic review of randomised controlled trials. BMJ. 2003;327(7429):1459-61.</a>
+    </div>
+    
+    <form action="{{ url_for('start_trial') }}" method="post">
+        <label for="participants">Number of Participants:</label>
+        <input type="number" name="participants" id="participants" value="10" min="1" max="1000000"><br><br>
+        
+        <label for="plane_height">Plane Height (m):</label>
+        <select name="plane_height" id="plane_height">
+            <option value="3000">3000 meters</option>
+            <option value="4000">4000 meters</option>
+            <option value="5000">5000 meters</option>
+        </select><br><br>
+        
+        <label for="deploy_height">Parachute Deployment Height (m):</label>
+        <select name="deploy_height" id="deploy_height">
+            <option value="1500">1500 meters</option>
+            <option value="1000">1000 meters</option>
+            <option value="500">500 meters</option>
+        </select><br><br>
+        
+        <label for="weather">Weather Conditions:</label>
+        <select name="weather" id="weather">
+            <option value="no_wind">No Wind</option>
+            <option value="fair_wind">Fair Wind</option>
+            <option value="strong_wind">Strong Winds</option>
+        </select><br><br>
+        <input type="submit" value="Run Simulation">
+    </form>
+
+    <footer>
+        © 2024 Magnús Smári Smárason, allur réttur áskilinn. | <a href="https://www.smarason.is" target="_blank" rel="noopener">www.smarason.is</a>
+    </footer>
+</body>
+</html>
