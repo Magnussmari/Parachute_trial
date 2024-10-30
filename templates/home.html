@@ -5,89 +5,211 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parachute Effectiveness Trial</title>
     <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --border-color: #dee2e6;
+        }
+
         body {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             margin: 0;
             padding: 20px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
-        .citation {
-            margin: 20px 0;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-left: 4px solid #007bff;
-            font-style: italic;
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        .citation a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .citation a:hover {
-            text-decoration: underline;
-        }
-        footer {
-            margin-top: auto;
-            padding: 20px 0;
+
+        h1 {
             text-align: center;
-            border-top: 1px solid #eee;
+            color: var(--primary-dark);
+            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
         }
-        footer a {
-            color: #007bff;
-            text-decoration: none;
+
+        .intro-text {
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #666;
         }
-        footer a:hover {
-            text-decoration: underline;
-        }
+
         .header-image {
             max-width: 300px;
             height: auto;
             display: block;
             margin: 20px auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .citation {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: var(--card-background);
+            border-left: 4px solid var(--primary-color);
+            border-radius: 4px;
+            font-style: italic;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .citation a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .citation a:hover {
+            text-decoration: underline;
+        }
+
+        .form-card {
+            background-color: var(--card-background);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: var(--primary-dark);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: #666;
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .form-card {
+                padding: 1rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Welcome to the Parachute Effectiveness Trial</h1>
-    
-    <img src="/static/graphics/parachutes.jpeg" alt="Parachutes" class="header-image">
-    
-    <p>
-        Participate in a double-blind trial to test the effectiveness of parachutes in preventing injury during free fall.
-    </p>
-    
-    <div class="citation">
-        Inspired by: <a href="https://pubmed.ncbi.nlm.nih.gov/14684649/" target="_blank" rel="noopener">Smith GC, Pell JP. Parachute use to prevent death and major trauma related to gravitational challenge: systematic review of randomised controlled trials. BMJ. 2003;327(7429):1459-61.</a>
+    <div class="container">
+        <h1>Welcome to the Parachute Effectiveness Trial</h1>
+        
+        <p class="intro-text">
+            Participate in a double-blind trial to test the effectiveness of parachutes in preventing injury during free fall.
+        </p>
+        
+        <img src="/static/graphics/parachutes.jpeg" alt="Parachutes" class="header-image">
+        
+        <div class="citation">
+            Inspired by: <a href="https://pubmed.ncbi.nlm.nih.gov/14684649/" target="_blank" rel="noopener">Smith GC, Pell JP. Parachute use to prevent death and major trauma related to gravitational challenge: systematic review of randomised controlled trials. BMJ. 2003;327(7429):1459-61.</a>
+        </div>
+        
+        <div class="form-card">
+            <form action="{{ url_for('start_trial') }}" method="post">
+                <div class="form-group">
+                    <label for="participants">Number of Participants:</label>
+                    <input type="number" name="participants" id="participants" value="10" min="1" max="1000000">
+                </div>
+                
+                <div class="form-group">
+                    <label for="plane_height">Plane Height (m):</label>
+                    <select name="plane_height" id="plane_height">
+                        <option value="3000">3000 meters</option>
+                        <option value="4000">4000 meters</option>
+                        <option value="5000">5000 meters</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="deploy_height">Parachute Deployment Height (m):</label>
+                    <select name="deploy_height" id="deploy_height">
+                        <option value="1500">1500 meters</option>
+                        <option value="1000">1000 meters</option>
+                        <option value="500">500 meters</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="weather">Weather Conditions:</label>
+                    <select name="weather" id="weather">
+                        <option value="no_wind">No Wind</option>
+                        <option value="fair_wind">Fair Wind</option>
+                        <option value="strong_wind">Strong Winds</option>
+                    </select>
+                </div>
+                
+                <input type="submit" value="Run Simulation">
+            </form>
+        </div>
     </div>
-    
-    <form action="{{ url_for('start_trial') }}" method="post">
-        <label for="participants">Number of Participants:</label>
-        <input type="number" name="participants" id="participants" value="10" min="1" max="1000000"><br><br>
-        
-        <label for="plane_height">Plane Height (m):</label>
-        <select name="plane_height" id="plane_height">
-            <option value="3000">3000 meters</option>
-            <option value="4000">4000 meters</option>
-            <option value="5000">5000 meters</option>
-        </select><br><br>
-        
-        <label for="deploy_height">Parachute Deployment Height (m):</label>
-        <select name="deploy_height" id="deploy_height">
-            <option value="1500">1500 meters</option>
-            <option value="1000">1000 meters</option>
-            <option value="500">500 meters</option>
-        </select><br><br>
-        
-        <label for="weather">Weather Conditions:</label>
-        <select name="weather" id="weather">
-            <option value="no_wind">No Wind</option>
-            <option value="fair_wind">Fair Wind</option>
-            <option value="strong_wind">Strong Winds</option>
-        </select><br><br>
-        <input type="submit" value="Run Simulation">
-    </form>
 
     <footer>
         © 2024 Magnús Smári Smárason, allur réttur áskilinn. | <a href="https://www.smarason.is" target="_blank" rel="noopener">www.smarason.is</a>
