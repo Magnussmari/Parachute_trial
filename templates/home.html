@@ -30,50 +30,49 @@
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1.5rem;
             box-sizing: border-box;
         }
 
         h1 {
             text-align: center;
             color: var(--primary-dark);
-            margin-bottom: 1.5rem;
-            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 2.2rem;
         }
 
         .intro-text {
             text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
             color: #666;
         }
 
         .header-image {
-            max-width: 250px;
+            max-width: 200px;
             height: auto;
             display: block;
-            margin: 20px auto;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            margin: 15px auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .citation, .disclaimer {
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
         }
 
         .citation {
-            margin: 20px 0;
-            padding: 15px;
             background-color: var(--card-background);
-            border-left: 4px solid var(--primary-color);
-            border-radius: 4px;
+            border-left: 3px solid var(--primary-color);
             font-style: italic;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .disclaimer {
-            margin: 20px 0;
-            padding: 15px;
             background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
-            border-radius: 4px;
-            font-size: 0.9rem;
+            border-left: 3px solid #ffc107;
             color: #856404;
         }
 
@@ -88,22 +87,22 @@
 
         .form-card {
             background-color: var(--card-background);
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            margin-top: 2rem;
-            max-width: 600px;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-top: 1.5rem;
+            max-width: 500px;
             margin-left: auto;
             margin-right: auto;
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
         }
 
         label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.3rem;
             font-weight: 500;
             color: #495057;
         }
@@ -111,31 +110,29 @@
         input[type="number"],
         select {
             width: 100%;
-            padding: 0.75rem;
-            border: 2px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-            box-sizing: border-box;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s ease;
         }
 
         input[type="number"]:focus,
         select:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
         }
 
         input[type="submit"] {
             width: 100%;
-            padding: 1rem;
+            padding: 0.8rem;
             background-color: var(--primary-color);
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 1.1rem;
+            border-radius: 4px;
+            font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.3s ease;
+            transition: background-color 0.2s ease;
         }
 
         input[type="submit"]:hover {
@@ -144,11 +141,12 @@
 
         footer {
             margin-top: auto;
-            padding: 20px;
+            padding: 15px;
             text-align: center;
             border-top: 1px solid var(--border-color);
             color: #666;
             background-color: var(--card-background);
+            font-size: 0.9rem;
         }
 
         footer a {
@@ -160,18 +158,13 @@
             text-decoration: underline;
         }
 
-        .footer-links {
-            margin-top: 10px;
-            font-size: 0.9rem;
-        }
-
         @media (max-width: 768px) {
             .container {
                 padding: 1rem;
             }
             
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .form-card {
@@ -238,10 +231,10 @@
     </div>
 
     <footer>
-        <div>© 2024 Magnús Smári Smárason, allur réttur áskilinn. | <a href="https://www.smarason.is" target="_blank" rel="noopener">www.smarason.is</a></div>
+        <div>© 2024 Magnús Smári Smárason | <a href="https://www.smarason.is" target="_blank" rel="noopener">www.smarason.is</a></div>
         <div class="footer-links">
             <a href="https://github.com/Magnussmari/Parachute_trial" target="_blank" rel="noopener">GitHub</a> |
-            Licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>
+            <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>
         </div>
     </footer>
 </body>

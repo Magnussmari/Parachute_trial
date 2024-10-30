@@ -6,6 +6,7 @@
     <title>Simulation Results</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
     <style>
         :root {
             --primary-color: #007bff;
@@ -70,16 +71,6 @@
 
         .button:hover {
             background-color: var(--primary-dark);
-        }
-
-        .disclaimer {
-            padding: 10px;
-            background-color: #fff3cd;
-            border-left: 4px solid #ffc107;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            color: #856404;
-            margin-bottom: 1rem;
         }
 
         .physics-section {
@@ -174,27 +165,28 @@
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Add height constraint for chart */
+        #resultsChart {
+            max-height: 400px !important;
+        }
     </style>
 </head>
 <body>
     <div class="content">
         <div class="full-width">
             <h1>Simulation Results</h1>
+        </div>
+
+        <div class="full-width">
             <p class="params">
                 <strong>Participants:</strong> {{ participants }} | 
                 <strong>Deployment Height:</strong> {{ deploy_height }} m | 
                 <strong>P-Value:</strong> {{ "%.5f"|format(p_value) }} | 
                 <strong>Weather:</strong> {{ weather.replace('_', ' ').title() }}
             </p>
-        </div>
-
-        <div class="full-width disclaimer">
-            <strong>Disclaimer:</strong> This is a concept demonstration and not hard science. The simulation uses simplified physics models and probability distributions for educational purposes only. View the source code on <a href="https://github.com/Magnussmari/Parachute_trial" target="_blank" rel="noopener">GitHub</a>.
-        </div>
-
-        <div>
             <h2>Outcomes by Group</h2>
-            <img src="data:image/png;base64,{{ chart_data }}" alt="Outcomes Chart">
+            <canvas id="resultsChart"></canvas>
         </div>
 
         <div class="physics-section">
@@ -251,10 +243,7 @@
                     <td>{{ placebo_results['Fatality'] }}</td>
                 </tr>
             </table>
-        </div>
 
-        <div>
-            <h2>Impact Analysis</h2>
             <table>
                 <tr>
                     <th>Group</th>
@@ -286,5 +275,66 @@
             Licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>
         </div>
     </footer>
+
+    <script>
+    const ctx = document.getElementById('resultsChart').getContext('2d');
+    const parachuteResults = [
+        {{ parachute_results['No Injury'] }},
+        {{ parachute_results['Minor Injury'] }},
+        {{ parachute_results['Serious Injury'] }},
+        {{ parachute_results['Fatality'] }}
+    ];
+    const placeboResults = [
+        {{ placebo_results['No Injury'] }},
+        {{ placebo_results['Minor Injury'] }},
+        {{ placebo_results['Serious Injury'] }},
+        {{ placebo_results['Fatality'] }}
+    ];
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['No Injury', 'Minor Injury', 'Serious Injury', 'Fatality'],
+            datasets: [{
+                label: 'Parachute',
+                data: parachuteResults,
+                backgroundColor: '#007bff',
+                borderColor: '#0056b3',
+                borderWidth: 1
+            }, {
+                label: 'Placebo',
+                data: placeboResults,
+                backgroundColor: '#dc3545',
+                borderColor: '#c82333',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `${context.dataset.label}: ${context.raw} participants`;
+                        }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Participants'
+                    }
+                }
+            }
+        }
+    });
+    </script>
 </body>
 </html>
