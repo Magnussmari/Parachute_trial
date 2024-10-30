@@ -3,230 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trial Results</title>
+    <title>Simulation Results</title>
     <style>
         body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 20px;
             font-family: Arial, sans-serif;
-            margin: 20px;
-            font-size: 14px;
         }
-        h1, h2 {
-            color: #333;
-            margin-top: 10px;
-            margin-bottom: 10px;
+        .content {
+            flex: 1;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 20px 0;
+            transition: background-color 0.3s;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        footer {
+            margin-top: auto;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
         }
         table {
             border-collapse: collapse;
             width: 100%;
-            margin-bottom: 15px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
+            margin: 20px 0;
         }
         th, td {
-            padding: 5px;
-            text-align: center;
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
         }
-        .physics-section {
-            background-color: #f9f9f9;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .equation-list, .variable-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-        }
-        .equation, .variable {
-            display: flex;
-            align-items: center;
-        }
-        .eq-name, .var-symbol {
-            font-weight: bold;
-            margin-right: 5px;
-            min-width: 100px;
-        }
-        #chartContainer {
-            width: 100%;
-            height: 300px;
-            margin-bottom: 15px;
-        }
-        .results-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+        th {
+            background-color: #f8f9fa;
         }
     </style>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <h1>Simulation Results</h1>
-    <p><strong>Participants:</strong> {{ participants }} | <strong>Deployment Height:</strong> {{ deploy_height }} m | <strong>P-value:</strong> {{ p_value|round(5) }} | <strong>Weather:</strong> {{ weather.replace('_', ' ').title() }}</p>
-    
-    <div class="results-grid">
-        <div>
-            <div id="chartContainer">
-                <canvas id="outcomesChart"></canvas>
-            </div>
-            
-            <h2>Aggregate Results</h2>
-            <table>
-                <tr>
-                    <th>Group</th>
-                    <th>No Injury</th>
-                    <th>Minor Injury</th>
-                    <th>Serious Injury</th>
-                    <th>Fatality</th>
-                    <th>Total</th>
-                </tr>
-                <tr>
-                    <td>Parachute</td>
-                    <td>{{ parachute_results['No Injury'] }}</td>
-                    <td>{{ parachute_results['Minor Injury'] }}</td>
-                    <td>{{ parachute_results['Serious Injury'] }}</td>
-                    <td>{{ parachute_results['Fatality'] }}</td>
-                    <td>{{ parachute_total }}</td>
-                </tr>
-                <tr>
-                    <td>Placebo</td>
-                    <td>{{ placebo_results['No Injury'] }}</td>
-                    <td>{{ placebo_results['Minor Injury'] }}</td>
-                    <td>{{ placebo_results['Serious Injury'] }}</td>
-                    <td>{{ placebo_results['Fatality'] }}</td>
-                    <td>{{ placebo_total }}</td>
-                </tr>
-            </table>
+    <div class="content">
+        <h1>Simulation Results</h1>
 
-            <h2>Average Impact Velocity and Mass</h2>
-            <table>
-                <tr>
-                    <th>Group</th>
-                    <th>Avg Mass (kg)</th>
-                    <th>Avg Impact Velocity (m/s)</th>
-                </tr>
-                <tr>
-                    <td>Parachute</td>
-                    <td>{{ avg_parachute_mass|round(2) }}</td>
-                    <td>{{ avg_parachute_velocity|round(2) }}</td>
-                </tr>
-                <tr>
-                    <td>Placebo</td>
-                    <td>{{ avg_placebo_mass|round(2) }}</td>
-                    <td>{{ avg_placebo_velocity|round(2) }}</td>
-                </tr>
-            </table>
-        </div>
-        
-        <div class="physics-section">
-            <h2>Physics Used in Simulation</h2>
-            <h3>Equations:</h3>
-            <div class="equation-list">
-                <div class="equation">
-                    <span class="eq-name">Free Fall Time:</span>
-                    <span class="eq-formula">\( t = \sqrt{\frac{2h}{g}} \)</span>
-                </div>
-                <div class="equation">
-                    <span class="eq-name">Free Fall Velocity:</span>
-                    <span class="eq-formula">\( v = g \times t \)</span>
-                </div>
-                <div class="equation">
-                    <span class="eq-name">Terminal Velocity:</span>
-                    <span class="eq-formula">\( V_t = \sqrt{\frac{2mg}{\rho C_d A}} \)</span>
-                </div>
-            </div>
-            
-            <h3>Where:</h3>
-            <div class="variable-list">
-                <div class="variable">
-                    <span class="var-symbol">\( g \)</span>
-                    <span class="var-description">= Gravity (9.81 m/s²)</span>
-                </div>
-                <div class="variable">
-                    <span class="var-symbol">\( h \)</span>
-                    <span class="var-description">= Height (m)</span>
-                </div>
-                <div class="variable">
-                    <span class="var-symbol">\( m \)</span>
-                    <span class="var-description">= Mass of jumper (kg)</span>
-                </div>
-                <div class="variable">
-                    <span class="var-symbol">\( \rho \)</span>
-                    <span class="var-description">= Air density (1.225 kg/m³)</span>
-                </div>
-                <div class="variable">
-                    <span class="var-symbol">\( C_d \)</span>
-                    <span class="var-description">= Drag coefficient</span>
-                </div>
-                <div class="variable">
-                    <span class="var-symbol">\( A \)</span>
-                    <span class="var-description">= Cross-sectional area (m²)</span>
-                </div>
-            </div>
-        </div>
+        <p>
+            <strong>Participants:</strong> {{ participants }} | 
+            <strong>Deployment Height:</strong> {{ deploy_height }} m | 
+            <strong>P-Value:</strong> {{ "%.5f"|format(p_value) }} | 
+            <strong>Weather:</strong> {{ weather.replace('_', ' ').title() }}
+        </p>
+
+        <h2>Outcomes by Group</h2>
+        <img src="data:image/png;base64,{{ chart_data }}" alt="Outcomes Chart">
+
+        <h2>Aggregate Results</h2>
+        <table>
+            <tr>
+                <th>Group</th>
+                <th>No Injury</th>
+                <th>Minor Injury</th>
+                <th>Serious Injury</th>
+                <th>Fatality</th>
+                <th>Total</th>
+            </tr>
+            <tr>
+                <td>Parachute</td>
+                <td>{{ parachute_results['No Injury'] }}</td>
+                <td>{{ parachute_results['Minor Injury'] }}</td>
+                <td>{{ parachute_results['Serious Injury'] }}</td>
+                <td>{{ parachute_results['Fatality'] }}</td>
+                <td>{{ parachute_total }}</td>
+            </tr>
+            <tr>
+                <td>Placebo</td>
+                <td>{{ placebo_results['No Injury'] }}</td>
+                <td>{{ placebo_results['Minor Injury'] }}</td>
+                <td>{{ placebo_results['Serious Injury'] }}</td>
+                <td>{{ placebo_results['Fatality'] }}</td>
+                <td>{{ placebo_total }}</td>
+            </tr>
+        </table>
+
+        <h2>Average Impact Velocity and Mass</h2>
+        <table>
+            <tr>
+                <th>Group</th>
+                <th>Avg Mass (kg)</th>
+                <th>Avg Impact Velocity (m/s)</th>
+            </tr>
+            <tr>
+                <td>Parachute</td>
+                <td>{{ "%.2f"|format(avg_parachute_mass) }}</td>
+                <td>{{ "%.2f"|format(avg_parachute_velocity) }}</td>
+            </tr>
+            <tr>
+                <td>Placebo</td>
+                <td>{{ "%.2f"|format(avg_placebo_mass) }}</td>
+                <td>{{ "%.2f"|format(avg_placebo_velocity) }}</td>
+            </tr>
+        </table>
+
+        <a href="/" class="button">Run Another Simulation</a>
     </div>
 
-    <a href="{{ url_for('home') }}">Run Another Simulation</a>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var ctx = document.getElementById('outcomesChart').getContext('2d');
-            var outcomesChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['No Injury', 'Minor Injury', 'Serious Injury', 'Fatality'],
-                    datasets: [{
-                        label: 'Parachute',
-                        data: [
-                            {{ parachute_results['No Injury'] }},
-                            {{ parachute_results['Minor Injury'] }},
-                            {{ parachute_results['Serious Injury'] }},
-                            {{ parachute_results['Fatality'] }}
-                        ],
-                        backgroundColor: 'rgba(75, 192, 192, 0.6)'
-                    }, {
-                        label: 'Placebo',
-                        data: [
-                            {{ placebo_results['No Injury'] }},
-                            {{ placebo_results['Minor Injury'] }},
-                            {{ placebo_results['Serious Injury'] }},
-                            {{ placebo_results['Fatality'] }}
-                        ],
-                        backgroundColor: 'rgba(255, 99, 132, 0.6)'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Number of Participants'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Outcome'
-                            }
-                        }
-                    },
-                    plugins: {
-                        title: {
-                            display: true,
-                            text: 'Outcomes by Group'
-                        }
-                    }
-                }
-            });
-        });
-    </script>
-  <footer>
-    © 2024 Magnús Smári Smárason, allur réttur áskilinn. | <a href="https://www.smarason.is" target="_blank" rel="noopener">www.smarason.is</a>
-</footer>
+    <footer>
+        © 2024 Magnús Smári Smárason, allur réttur áskilinn. | <a href="https://www.smarason.is" target="_blank" rel="noopener">www.smarason.is</a>
+    </footer>
 </body>
 </html>
