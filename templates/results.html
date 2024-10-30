@@ -5,55 +5,134 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simulation Results</title>
     <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-dark: #0056b3;
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #333333;
+            --border-color: #dee2e6;
+        }
+
         body {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             margin: 0;
-            padding: 20px;
-            font-family: Arial, sans-serif;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-color);
+            color: var(--text-color);
         }
+
         .content {
             flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            box-sizing: border-box;
         }
+
+        h1, h2 {
+            color: var(--primary-dark);
+        }
+
         .button {
             display: inline-block;
             padding: 12px 24px;
-            background-color: #007bff;
+            background-color: var(--primary-color);
             color: white;
             text-decoration: none;
             border-radius: 4px;
             margin: 20px 0;
             transition: background-color 0.3s;
         }
+
         .button:hover {
-            background-color: #0056b3;
+            background-color: var(--primary-dark);
         }
-        footer {
-            margin-top: auto;
-            padding: 20px 0;
-            text-align: center;
-            border-top: 1px solid #eee;
+
+        .disclaimer {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: #856404;
         }
-        footer a {
-            color: #007bff;
+
+        .disclaimer a {
+            color: var(--primary-color);
             text-decoration: none;
         }
-        footer a:hover {
+
+        .disclaimer a:hover {
             text-decoration: underline;
         }
+
         table {
             border-collapse: collapse;
             width: 100%;
             margin: 20px 0;
+            background-color: var(--card-background);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
         }
+
         th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
+            border: 1px solid var(--border-color);
+            padding: 12px;
             text-align: left;
         }
+
         th {
-            background-color: #f8f9fa;
+            background-color: var(--background-color);
+            font-weight: 600;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+            color: #666;
+            background-color: var(--card-background);
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            margin-top: 10px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 1rem;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
         }
     </style>
 </head>
@@ -67,6 +146,10 @@
             <strong>P-Value:</strong> {{ "%.5f"|format(p_value) }} | 
             <strong>Weather:</strong> {{ weather.replace('_', ' ').title() }}
         </p>
+
+        <div class="disclaimer">
+            <strong>Disclaimer:</strong> This is a concept demonstration and not hard science. The simulation uses simplified physics models and probability distributions for educational purposes only. View the source code on <a href="https://github.com/Magnussmari/Parachute_trial" target="_blank" rel="noopener">GitHub</a>.
+        </div>
 
         <h2>Outcomes by Group</h2>
         <img src="data:image/png;base64,{{ chart_data }}" alt="Outcomes Chart">
@@ -122,7 +205,11 @@
     </div>
 
     <footer>
-        © 2024 Magnús Smári Smárason, allur réttur áskilinn. | <a href="https://www.smarason.is" target="_blank" rel="noopener">www.smarason.is</a>
+        <div>© 2024 Magnús Smári Smárason, allur réttur áskilinn. | <a href="https://www.smarason.is" target="_blank" rel="noopener">www.smarason.is</a></div>
+        <div class="footer-links">
+            <a href="https://github.com/Magnussmari/Parachute_trial" target="_blank" rel="noopener">GitHub</a> |
+            Licensed under <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener">MIT License</a>
+        </div>
     </footer>
 </body>
 </html>
